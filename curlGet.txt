@@ -1,0 +1,15 @@
+{
+  "query": {
+    "match": {
+      "log.sequence.keyword": "7663885"
+    }
+  }, 
+  "aggs": {
+    "Exported_terms": {
+      "terms": {
+        "field": "message.keyword",
+        "size": 1
+      }
+    }
+  }
+}
