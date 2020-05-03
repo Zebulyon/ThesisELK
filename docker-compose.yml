@@ -1,0 +1,87 @@
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    container_name: elasticsearch
+    environment:
+      - cluster.name=elastic-cluster
+      - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+      - "discovery.type=single-node"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9600:9600 # required for Performance Analyzer
+    expose:
+      - "9200"
+    networks:
+      - elastic-net
+  kibana:
+    depends_on:      
+      - "elasticsearch"
+    image: docker.elastic.co/kibana/kibana:7.6.0
+    container_name: kibana
+    ports:
+      - 5601:5601
+    expose:
+      - "5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    networks:
+      - elastic-net
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.6.0
+    depends_on:
+      - "kibana"
+      - "logstash"
+    container_name: filebeat
+    user: root 
+    volumes: # What files and infomration to send to the container
+      - "./ELK_filebeat_config_files/filebeat_LOG_plA.yml:/usr/share/filebeat/filebeat.yml"
+      #- "./ELK_filebeat_config_files/filebeat_LOG_ss7trace.yml:/usr/share/filebeat/filebeat.yml"
+      #- "./ELK_filebeat_config_files/filebeat_json.yml:/usr/share/filebeat/filebeat.yml"
+      #- "./logFiles/20191202_1/ss7traceOne.log:/var/log/myLogs/ss7traceLogs/ss7trace_1.log"
+      #- "./logFiles/20191202_2/ss7trace.log:/var/log/myLogs/ss7traceLogs/ss7trace_2.log"
+      #- "./logFiles/20191202_3/ss7trace.log:/var/log/myLogs/ss7traceLogs/ss7trace_3.log"
+      #- "./logFiles/20191202_4/ss7trace.s9.log:/var/log/myLogs/ss7traceLogs/ss7trace_4.log"
+      #
+      - "./logFiles/20191202_1/pl_agent.log:/var/log/myLogs/systemLog/pl_1.log"
+      - "./logFiles/20191202_4/pl1.s9.log:/var/log/myLogs/systemLog/pl_2.log"
+      - "./logFiles/20191202_4/pl2.s9.log:/var/log/myLogs/systemLog/pl_3.log"
+      #
+      - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - elastic-net
+  logstash:
+    depends_on:
+      - "elasticsearch"
+      - "kibana"
+    image: docker.elastic.co/logstash/logstash:7.6.0
+    container_name: logstash
+    ports:
+      - 5044:5044
+    expose: 
+      - "5044"
+    volumes:
+    #- "./ELK_logstash_config_files/logstash_ss7trace.conf:/usr/share/logstash/pipeline/logstash_ss7trace.conf"
+    - "./ELK_logstash_config_files/logstash_systemLog.conf:/usr/share/logstash/pipeline/logstash_systemLog.conf"
+    #- "./ELK_logstash_config_files/logstash_json.conf:/usr/share/logstash/pipeline/logstash_json.conf"
+    - "./ELK_logstash_config_files/logstash.yml:/usr/share/logstash/config/logstash.yml"
+    networks:
+      - elastic-net
+
+volumes:
+  elastic-data:
+
+networks:
+  elastic-net:
+    driver: bridge
