@@ -1,0 +1,23 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - "/var/log/myLogs/systemLog/*.log"
+
+processors:
+- add_cloud_metadata: ~
+- add_docker_metadata: ~
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+setup.template.name: "filebeat"
+setup.template.pattern: "filebeat-*"
+setup.ilm.overwrite: true
+
+# To be run requires that one enable logstash module and pipelines setup 
