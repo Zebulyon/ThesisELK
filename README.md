@@ -119,31 +119,31 @@ section which would allow this .yml file to also read all of the systemlog files
 	
 	# ss7trace
 	
-	event.type 							: Containes the information regarding if the Event in question is a SENT, RECEIVED, LINKED.
-	process.type 						: Is the prcess number
-	log.sequence 						: Is the sequence number for the logged event
-	process.sender.module				: The name of the sending process module
+	event.type 				: Containes the information regarding if the Event in question is a SENT, RECEIVED, LINKED.
+	process.type 				: Is the prcess number
+	log.sequence 				: Is the sequence number for the logged event
+	process.sender.module			: The name of the sending process module
 	process.sender.module_instance		: The PID of the sending process module
-	process.sender.module				: The name of the receiving process module
+	process.sender.module			: The name of the receiving process module
 	process.receiver.module_instance	: The PID of the receiving process module
-	event.message.type					: The Primitive value
-	message_size						: The size value
-	message_data.size					: The MD_size value
+	event.message.type			: The Primitive value
+	message_size				: The size value
+	message_data.size			: The MD_size value
 	
-	log.internal.level					: The L: value
+	log.internal.level			: The L: value
 	
-	log.module.name						: Name of the module that gave the Syslog message
-	log.module.instance					: The instance of the module that gave the Syslog message
-	log.module.pid						: The PID of the module that gave the Syslog message
-	log.module.thread.id
-	log.module.level.internal
+	log.module.name				: Name of the module that gave the Syslog message
+	log.module.instance			: The instance of the module that gave the Syslog message
+	log.module.pid				: The PID of the module that gave the Syslog message
+	log.module.thread.id			: The TID of the module that gave the Syslog message
+	log.module.level.internal		: The L: of the module that gave the Syslog message
 	
-	n1.zero								: These values I was unable to fund a good naming scheme for but they are the values associated in this documentation
-	error.arg1
+	n1.zero					: These values I was unable to fund a good naming scheme for but they are the values 	
+	error.arg1				  associated in this documentation
 	error.arg2
 	error.arg3
 	
-	YYYY MON DAY hh:mm:ss:msec <process type>:<sequence number><\n>
+YYYY MON DAY hh:mm:ss:msec <process type>:<sequence number><\n>
 **** <MODULE>:<instance> PID:<pid> TID:<TID>
 L:<ll> <filename><ln><nl><n2><p1><p2><p3>
 <Error_Code><\n>
@@ -172,4 +172,4 @@ Date and time the error was reported by the module.
 
 	# Syslog
 	
-	process.user 					: Contains the information about which user created the log, example root user
+	process.user 				: Contains the information about which user created the log, example root user
