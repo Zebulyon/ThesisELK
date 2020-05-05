@@ -6,22 +6,22 @@
 
 Use this commmand in the project directory, which in this case is the ELK directory, it is where the docker-compse.yml file is located
 
-docker-compose up -d
+	docker-compose up -d
 
 
 To turn of the containers properly use 
 
-docker-compose down
+	docker-compose down
 
 
 To pause specfic containers, here persistant data for Filebeat and Logstash will be kept between runs
 
-docker-compose stop CONTAINER-NAME
-
+	docker-compose stop CONTAINER-NAME
+	
 
 To disable all paused containers, this will delete the perssistent data for Logstash and Filebeat
 
-docker-compose rm
+	docker-compose rm
 
 
 # Elasticsearch 
@@ -36,30 +36,31 @@ tshark -r PATH-TO-PCAP-FILE -T ek > FILE-TO-WRITE-TO.json
 
 
 Adding files
-		The -H "Content-Type: application/x-ndjson" part is a safty precatuttion added in laterversions of Elasticsearch
-		it instructs of what type of content is being added
 
-curl -s -H "Content-Type: application/x-ndjson" -XPOST "localhost:9200/INDEX-NAME-MUST-BE-LOWERCASE/_bulk" --data-binary "@FILE-TO-UPPLOAD.json"
+	The -H "Content-Type: application/x-ndjson" part is a safty precatuttion added in laterversions of Elasticsearch
+	it instructs of what type of content is being added
+
+	curl -s -H "Content-Type: application/x-ndjson" -XPOST "localhost:9200/INDEX-NAME-MUST-BE-LOWERCASE/_bulk" --data-binary "@FILE-TO-UPPLOAD.json"
 
 
 # Retriving Files or Data 
 
 Here is an example of rettriving data from the index logstash_ss7trace
 
-curl -s -H "Content-Type: application/json" -XGET "localhost:9200/logstash_ss7trace/_search?size=0&pretty" -d @curlGet.txt > exportedTerms.json
+	curl -s -H "Content-Type: application/json" -XGET "localhost:9200/logstash_ss7trace/_search?size=0&pretty" -d @curlGet.txt > exportedTerms.json
 	
 	Where curlGet.txt is a file containing the query specifing which data fields to fetch from the specified index, this file is included in the project
 	exportedTerms.json is the file to which teh output is written to. 
 
 For more indepths explenations, tutorials and guides I refere you to these pages
 
-https://logz.io/blog/elasticsearch-queries/
+	https://logz.io/blog/elasticsearch-queries/
 
 logz has a multitude of easy to read step by step guides for the entire Elastic-stack
 
 Then there is of course the offical documentation on elstics websites
 
-https://www.elastic.co/guide/en/elasticsearch/reference/current/rest-apis.html
+	https://www.elastic.co/guide/en/elasticsearch/reference/current/rest-apis.html
 	
 	
 My specific search query example look like this :  
