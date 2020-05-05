@@ -90,13 +90,14 @@ My specific search query example look like this :
 
 All patterns use some level of REGEX patterns. 
 
-For GROK filter documentation : https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html
+	For GROK filter documentation : https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html
+
 	For premade patterns regarding GROK : https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/grok-patterns
 	
-For DATE filter documentation : https://www.elastic.co/guide/en/logstash/current/plugins-filters-date.html
-For MUTATE filter documentation : https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html
+	For DATE filter documentation : https://www.elastic.co/guide/en/logstash/current/plugins-filters-date.html
+	For MUTATE filter documentation : https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html
 
-For complete list of all official Logstash filters : https://www.elastic.co/guide/en/logstash/current/filter-plugins.html
+	For complete list of all official Logstash filters : https://www.elastic.co/guide/en/logstash/current/filter-plugins.html
 
 To create a custom pattern : 
 	(?<FIELD-NAME>COMBINATION OF PATTERNS)
