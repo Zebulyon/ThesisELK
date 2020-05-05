@@ -1,5 +1,10 @@
 # ThesisELK
 
+
+# Start all the containers
+# Use this commmand in the project directory, which in this case is the ELK directory, it is where the docker-compse.yml file is located
+docker-compose up -d
+
 # Elasticsearch 
 
 # Converting Pcap to Json
@@ -17,3 +22,4 @@ curl -s -H "Content-Type: application/x-ndjson" -XPOST "localhost:9200/test_one/
 curl -s -H "Content-Type: application/json" -XGET "localhost:9200/logstash_ss7trace/_search?size=0&pretty" -d @curlGet.txt > exportedTerms.json
 # Where curlGet.txt is a file containing the query specifing which data fields to fetch from the specified index
 # exportedTerms.json is the file to which teh output is written to
+

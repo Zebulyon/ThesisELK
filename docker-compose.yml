@@ -1,12 +1,14 @@
 version: '3'
 services:
+  #
+  # The section for the Elasticsearch container
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
     container_name: elasticsearch
     environment:
       - cluster.name=elastic-cluster
-      - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+      - bootstrap.memory_lock=true          # along with the memlock settings below, disables swapping
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"    # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       - "discovery.type=single-node"
     ulimits:
       nofile:
@@ -18,15 +20,17 @@ services:
     volumes:
       - elastic-data:/usr/share/elasticsearch/data
     ports:
-      - 9200:9200
+      - 9200:9200 # The port that will be used when communicating with Elasticsearch but inside the container and outside of it
       - 9600:9600 # required for Performance Analyzer
     expose:
-      - "9200"
+      - "9200" 
     networks:
-      - elastic-net
+      - elastic-net # This allows all of the containers to see themselves on the same localhost making communication between them a lot easier
+  #
+  # The section for the Kibana container    
   kibana:
     depends_on:      
-      - "elasticsearch"
+      - "elasticsearch" # This ensures that kibana will not begin to start up untill elasticsearch has successfully started
     image: docker.elastic.co/kibana/kibana:7.6.0
     container_name: kibana
     ports:
@@ -34,9 +38,11 @@ services:
     expose:
       - "5601"
     environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_URL: http://elasticsearch:9200 # Sets an enviroment variable within the Kibana container
     networks:
       - elastic-net
+  #    
+  # The section for the Filebeat container
   filebeat:
     image: docker.elastic.co/beats/filebeat:7.6.0
     depends_on:
@@ -44,23 +50,34 @@ services:
       - "logstash"
     container_name: filebeat
     user: root 
-    volumes: # What files and infomration to send to the container
-      - "./ELK_filebeat_config_files/filebeat_LOG_plA.yml:/usr/share/filebeat/filebeat.yml"
+    volumes: 
+      # This tag dictates what files are to copied into the container
+      # These files are not persisent in filebeat but will be in kiban
+      #
+      # These are the filebeat config files one for each type of filetype
+      #- "./ELK_filebeat_config_files/filebeat_LOG_plA.yml:/usr/share/filebeat/filebeat.yml"
       #- "./ELK_filebeat_config_files/filebeat_LOG_ss7trace.yml:/usr/share/filebeat/filebeat.yml"
-      #- "./ELK_filebeat_config_files/filebeat_json.yml:/usr/share/filebeat/filebeat.yml"
+      #
+      # These are the ss7trace file to be imported into kibana
+      # Uncomment these if you would like to import these
       #- "./logFiles/20191202_1/ss7traceOne.log:/var/log/myLogs/ss7traceLogs/ss7trace_1.log"
       #- "./logFiles/20191202_2/ss7trace.log:/var/log/myLogs/ss7traceLogs/ss7trace_2.log"
       #- "./logFiles/20191202_3/ss7trace.log:/var/log/myLogs/ss7traceLogs/ss7trace_3.log"
       #- "./logFiles/20191202_4/ss7trace.s9.log:/var/log/myLogs/ss7traceLogs/ss7trace_4.log"
       #
-      - "./logFiles/20191202_1/pl_agent.log:/var/log/myLogs/systemLog/pl_1.log"
-      - "./logFiles/20191202_4/pl1.s9.log:/var/log/myLogs/systemLog/pl_2.log"
-      - "./logFiles/20191202_4/pl2.s9.log:/var/log/myLogs/systemLog/pl_3.log"
+      # These are the systemlog files to be imported into Kibana
+      # Uncomment these if you would like to import these
+      #- "./logFiles/20191202_1/pl_agent.log:/var/log/myLogs/systemLog/pl_1.log"
+      #- "./logFiles/20191202_4/pl1.s9.log:/var/log/myLogs/systemLog/pl_2.log"
+      #- "./logFiles/20191202_4/pl2.s9.log:/var/log/myLogs/systemLog/pl_3.log"
       #
+      # These are standard configuration meant to enable that everything works in docker-compose
       - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - elastic-net
+  #
+  # The section for the Logstash container  
   logstash:
     depends_on:
       - "elasticsearch"
@@ -72,9 +89,14 @@ services:
     expose: 
       - "5044"
     volumes:
+    #
+    # This is the logstash config file for handeling ss7trace files
     #- "./ELK_logstash_config_files/logstash_ss7trace.conf:/usr/share/logstash/pipeline/logstash_ss7trace.conf"
-    - "./ELK_logstash_config_files/logstash_systemLog.conf:/usr/share/logstash/pipeline/logstash_systemLog.conf"
-    #- "./ELK_logstash_config_files/logstash_json.conf:/usr/share/logstash/pipeline/logstash_json.conf"
+    #
+    #This if the logstash config file for handeling systemlog files
+    #- "./ELK_logstash_config_files/logstash_systemLog.conf:/usr/share/logstash/pipeline/logstash_systemLog.conf"
+    #
+    # This is the standard logstash config files used to enable communications with elasticsearch and the like
     - "./ELK_logstash_config_files/logstash.yml:/usr/share/logstash/config/logstash.yml"
     networks:
       - elastic-net
