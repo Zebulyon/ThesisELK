@@ -110,6 +110,8 @@ section which would allow this .yml file to also read all of the systemlog files
 
 # Kibana 
 
+To access Kibana go to localhost:5601, this port number is the standard one for Kibana
+
 # Field Mapping
 	
 	For a complete of all the offical field naming as per the Elastic Common Schema (ECS): https://www.elastic.co/guide/en/ecs/current/ecs-field-reference.html
@@ -173,3 +175,35 @@ Date and time the error was reported by the module.
 	# Syslog
 	
 	process.user 				: Contains the information about which user created the log, example root user
+
+
+# To create an Index Pattern
+
+This is needed if one would want to access the index in Kibana
+
+	Go to:
+	management -> Index Patterns -> Create Index Pattern
+	
+# To solve a minor Timebug that you might encounter
+
+	The bug is that while no changes are done to the data, because a incorrect Timezone is set Kibana will change will treat all of the timestamps as something else
+	which could lead to confusion during error searching
+	
+	Go to:
+	management -> Advanced Settings -> Timezone for date formatting 
+		Set the value to UCT 
+		
+		
+		
+# Docker
+	
+	# Store data between sessions
+	
+	This is no problem as their persistant data is stored in a docker voluem specified in the docker-compose.yml file 
+	
+	# Move the persistant data between machines
+	
+	I admit to not having been able to figure this one out because of a lack of time, but it is possible to do. 
+	With persistant data I refere to all of the already stored logs in Elasticsearcha and the created Visualization in Kibana
+	
+	
