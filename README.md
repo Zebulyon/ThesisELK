@@ -145,6 +145,14 @@ section which would allow this .yml file to also read all of the systemlog files
 
 To access Kibana go to localhost:5601, this port number is the standard one for Kibana
 
+
+# JOINING INDEXES
+
+	 Is impossible in Elasticsearch it is one of its drawback. The only work around is to format the data in the logs such that they could all be in the same index. 
+	 This means that fields such that timestamp must be named the same. 
+
+
+
 # Field Mapping
 	
 	For a complete of all the offical field naming as per the Elastic Common Schema (ECS): https://www.elastic.co/guide/en/ecs/current/ecs-field-reference.html
