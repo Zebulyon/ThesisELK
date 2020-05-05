@@ -186,31 +186,31 @@ To access Kibana go to localhost:5601, this port number is the standard one for 
 	error.arg2
 	error.arg3
 	
-YYYY MON DAY hh:mm:ss:msec <process type>:<sequence number><\n>
-**** <MODULE>:<instance> PID:<pid> TID:<TID>
-L:<ll> <filename><ln><nl><n2><p1><p2><p3>
-<Error_Code><\n>
-Where:
-YYYY MON DAY
-hh:mm:ss:msec
-Date and time the error was reported by the module.
-<process type> Message port owner of the process reported the error.
-<sequence number> Sequence number of this log message. Each process counts its messages separately starting with 1.
-**** Indicates the line in the ss7trace.log file, contains error code, see the Note.
-<MODULE> Is the name of the module which reported the error.
-<instance> Instance of the logging module.
-<pid> PID of the logging module.
-<TID> Thread ID of the logging module.
-<ll> Log level of the logging module.
-<filename> Is the source code file name (for internal use).
-<ln> Line number of the source code (for internal use).
-<n1> 0 (zero).
-<n2> The process ID (Identification).
-<p1> Meaning of this parameter depends on the error code.
-<p2> Meaning of this parameter depends on the error code.
-<p3> Meaning of this parameter depends on the error code.
-<Error_Code> The error code which holds the actual error value.
-<\n> Line break.
+	YYYY MON DAY hh:mm:ss:msec <process type>:<sequence number><\n>
+	**** <MODULE>:<instance> PID:<pid> TID:<TID>
+	L:<ll> <filename><ln><nl><n2><p1><p2><p3>	
+	<Error_Code><\n>
+	Where:
+	YYYY MON DAY
+	hh:mm:ss:msec
+	Date and time the error was reported by the module.
+	<process type> Message port owner of the process reported the error.
+	<sequence number> Sequence number of this log message. Each process counts its messages separately starting with 1.
+	**** Indicates the line in the ss7trace.log file, contains error code, see the Note.
+	<MODULE> Is the name of the module which reported the error.
+	<instance> Instance of the logging module.
+	<pid> PID of the logging module.
+	<TID> Thread ID of the logging module.
+	<ll> Log level of the logging module.
+	<filename> Is the source code file name (for internal use).
+	<ln> Line number of the source code (for internal use).
+	<n1> 0 (zero).
+	<n2> The process ID (Identification).
+	<p1> Meaning of this parameter depends on the error code.
+	<p2> Meaning of this parameter depends on the error code.
+	<p3> Meaning of this parameter depends on the error code.
+	<Error_Code> The error code which holds the actual error value.
+	<\n> Line break.
 
 
 	# Syslog
