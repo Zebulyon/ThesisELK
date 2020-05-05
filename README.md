@@ -22,6 +22,10 @@ To pause specfic containers, here persistant data for Filebeat and Logstash will
 To disable all paused containers, this will delete the perssistent data for Logstash and Filebeat
 
 	docker-compose rm
+	
+# For the first run of the project
+
+I have taken an commented out the instructions of the files to be copied into the Filebeat and Logstash containers, so for the intial run through of the proeject if one would want to load the data into Elasticsearch, open the docker-compose.yml file and go to the Filebeat and Logstash sections for further instructions. 
 
 
 # Elasticsearch 
