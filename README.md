@@ -51,6 +51,39 @@ curl -s -H "Content-Type: application/json" -XGET "localhost:9200/logstash_ss7tr
 	Where curlGet.txt is a file containing the query specifing which data fields to fetch from the specified index, this file is included in the project
 	exportedTerms.json is the file to which teh output is written to. 
 
+For more indepths explenations, tutorials and guides I refere you to these pages
+
+https://logz.io/blog/elasticsearch-queries/
+
+logz has a multitude of easy to read step by step guides for the entire Elastic-stack
+
+Then there is of course the offical documentation on elstics websites
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/rest-apis.html
+	
+	
+My specific search query example look like this :  
+
+	{
+		"query": {
+			"match": {
+				"log.sequence.keyword": "7663885"
+				}
+			}, 
+			"aggs": {
+				"Exported_terms": {
+					"terms": {
+						"field": "message.keyword",
+						"size": 1
+					}
+				}
+			}
+	}
+	
+	This is a very basic query. In "match" field one specifies the index field of interest and the value of interest.
+	While in the "aggs" field one specifies which fields from the event, found through the match field, we want to extract in the "field" header. The "size" header dictates how
+	many responses that fullfills the "match" field that we want to retrive. 
+	The index in question that we want to look at is specified in the curl command. 
 	
 # Logstash
 
@@ -175,6 +208,12 @@ Date and time the error was reported by the module.
 	# Syslog
 	
 	process.user 				: Contains the information about which user created the log, example root user
+
+
+	# Functions of Interest
+	
+	If one goes to the Dev Tool tab, then you get access to a console window where one can write and test out search queries and filters with the aid of autocomplete
+		There is a also a subwindow for Debuggin GROK Patterns
 
 
 # To create an Index Pattern
