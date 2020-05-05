@@ -148,8 +148,17 @@ To access Kibana go to localhost:5601, this port number is the standard one for 
 
 # JOINING INDEXES
 
-	 Is impossible in Elasticsearch it is one of its drawback. The only work around is to format the data in the logs such that they could all be in the same index. 
-	 This means that fields such that timestamp must be named the same. 
+	 It is not normally possible in Elasticsearch it is one of its drawback. The only work around is to format the data in the logs such that they could all be in the same index. 
+	 Now one can still perform queries on multiple indexes at once but this can potentially get very complicated.
+	 
+	 If one wants to visualize the data however then it is required that the timestamp field in the two differnt index patterns is named the same. If not then Kibana becomes unable of handeling the timestamp information between the fields at the same time.
+	 
+	 	In this project this is possible for the syslog and ss7trace files as they have the same name for the timestamp fiel. With the pcap files however this is not possible as the timestamp field is named something differnt from the other two log files. 
+	 
+	 A potential work around is to create multiple different index patterns, perform a error search in one of them and try to limit the time frame to an acceptable level. Then go to a another index pattern and use the same time frame this will at least make it easier for the user to see which fields have an relation between eachother in the aspect of time. 
+	 However if there is another common field denomiter between two index patterns, then you could combine them into a single index pattern, that is undependent on time. And now you have a relational database where you can search for certain fields and get all the result that satisfy the search terms. 
+	 
+	 Meaning if one wants to combine indexpatterns for the visualization tool in Kibana then one most first perform the overhead task of formatting the data sent to Elasticsearch such that there is at a shared field between the.
 
 
 
