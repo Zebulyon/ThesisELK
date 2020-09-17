@@ -57,6 +57,7 @@ services:
       # These are the filebeat config files one for each type of filetype
       #- "./ELK_filebeat_config_files/filebeat_LOG_plA.yml:/usr/share/filebeat/filebeat.yml"
       #- "./ELK_filebeat_config_files/filebeat_LOG_ss7trace.yml:/usr/share/filebeat/filebeat.yml"
+      - "./ELK_filebeat_config_files/filebeat_json.yml:/usr/share/filebeat/filebeat.yml"
       #
       # These are the ss7trace file to be imported into kibana
       # Uncomment these if you would like to import these
@@ -70,6 +71,10 @@ services:
       #- "./logFiles/20191202_1/pl_agent.log:/var/log/myLogs/systemLog/pl_1.log"
       #- "./logFiles/20191202_4/pl1.s9.log:/var/log/myLogs/systemLog/pl_2.log"
       #- "./logFiles/20191202_4/pl2.s9.log:/var/log/myLogs/systemLog/pl_3.log"
+      #
+      # This is the modified JSON files to be imported into Kibana
+      # Uncomment these if you would like to import these
+      - "./ModifiedJson.json:/var/log/myLogs/jsonLog/output.json"
       #
       # These are standard configuration meant to enable that everything works in docker-compose
       - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
@@ -95,6 +100,9 @@ services:
     #
     #This if the logstash config file for handeling systemlog files
     #- "./ELK_logstash_config_files/logstash_systemLog.conf:/usr/share/logstash/pipeline/logstash_systemLog.conf"
+    #
+    #This if the logstash config file for handeling JSON files
+    - "./ELK_logstash_config_files/logstash_json.conf:/usr/share/logstash/pipeline/logstash_systemLog.conf"
     #
     # This is the standard logstash config files used to enable communications with elasticsearch and the like
     - "./ELK_logstash_config_files/logstash.yml:/usr/share/logstash/config/logstash.yml"

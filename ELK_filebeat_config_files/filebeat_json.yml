@@ -1,0 +1,23 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: true
+    
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+  - "/var/log/myLogs/jsonLog/output.json"
+  json.keys_under_root: true
+  json.add_error_key: true
+  json.overwrite_keys: true
+  json.message_key: log
+  
+
+  
+output.logstash:
+  hosts: ["logstash:5044"]
+
+#output.console:
+#  pretty: true
+

@@ -85,9 +85,9 @@ My specific search query example look like this :
 			}
 	}
 	
-	This is a very basic query. In "match" field one specifies the index field of interest and the value of interest.
-	While in the "aggs" field one specifies which fields from the event, found through the match field, we want to extract in the "field" header. The "size" header dictates how
-	many responses that fullfills the "match" field that we want to retrive. 
+	This is a very basic query. In "match" field one specifies the index field of interest and the value of interest, that matches with a stored JSON document.
+	While in the "aggs" field one specifies which fields from the JSON document, found through the match field, we want to extract in the "field" header. The "size" header dictates how
+	many responses that fullfills the "match" field that we want to retrive in the case of a more wide search and extraction query. 
 	The index in question that we want to look at is specified in the curl command. 
 	
 # Logstash
@@ -269,3 +269,9 @@ This is needed if one would want to access the index in Kibana
 	With persistant data I refere to all of the already stored logs in Elasticsearcha and the created Visualization in Kibana
 	
 	
+# Wireshark Elastic Mapping Duplicate Field Bug Report
+
+Here is the link to the Bugreport regarding the bug found in the PCAP to JSON conversion function found in TShark
+
+https://bugs.wireshark.org/bugzilla/show_bug.cgi?id=15719
+
