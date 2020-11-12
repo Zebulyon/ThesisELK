@@ -273,5 +273,9 @@ This is needed if one would want to access the index in Kibana
 
 Here is the link to the Bugreport regarding the bug found in the PCAP to JSON conversion function found in TShark
 
+Bug report old server
 https://bugs.wireshark.org/bugzilla/show_bug.cgi?id=15719
+
+Bug report new server
+https://gitlab.com/wireshark/wireshark/-/issues/15719
 
